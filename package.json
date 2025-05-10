@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo 'Привет!'",
-    "check": "prettier --check './blocks/**/*.{html,css,js}'",
-    "format": "prettier --write '.**/*.{html,css,js}'",
+    "check": "prettier --check ./**/*.{html,css,js}",
+    "format": "prettier --write ./**/*.{html,css,js}",
     "lint": "stylelint './**/*.css'",
     "lintfix": "stylelint './**/*.css' --fix",
     "checkAll": "npm run check && npm run lint",
