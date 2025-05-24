@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo 'Привет!'",
+    "buildW": "webpack --mode production",
+    "devL": "webpack serve",
     "check": "prettier --check ./**/*.{html,css,js}",
     "format": "prettier --write ./**/*.{html,css,js}",
     "lint": "stylelint './**/*.css'",
@@ -19,21 +21,35 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "autoprefixer": "^10.4.14",
+    "@babel/core": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
     "browser-sync": "^2.29.1",
-    "cssnano": "^6.0.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^7.1.2",
+    "cssnano": "^6.1.2",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-concat-css": "^3.1.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.1",
     "html-minifier": "^4.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
     "postcss": "^8.4.23",
     "postcss-combine-media-query": "^1.0.1",
+    "postcss-loader": "^8.1.1",
     "prettier": "^2.8.7",
-    "stylelint": "^15.4.0"
+    "stylelint": "^15.4.0",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
   },
   "browserslist": [
     "last 5 versions"
-  ]
+  ],
+  "dependencies": {
+    "core-js": "^3.42.0"
+  }
 }
