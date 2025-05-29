@@ -3,6 +3,7 @@
 
 import './pages/index.css'; // добавьте импорт главного файла стилей
 import {initialCards} from './scripts/cards.js';
+import { closeModal, openModal } from './components/modal.js';
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -10,6 +11,11 @@ const cardTemplate = document.querySelector('#card-template').content;
 // @todo: DOM узлы
 const content = document.querySelector('.content');
 const placesList = content.querySelector('.places__list');
+
+const profileEditButton = document.querySelector('.profile__edit-button');
+const popupTypeEdit = document.querySelector('.popup_type_edit');
+const popupClose = document.querySelector('.popup__close');
+
 
 // @todo: Функция создания карточки
 const createCard = (
@@ -35,3 +41,10 @@ initialCards.forEach((card) => {
   const cardElement = createCard(card.name, card.link, deleteCard);
   placesList.append(cardElement);
 });
+
+profileEditButton.addEventListener ('click', function (evt){
+  openModal(popupTypeEdit)
+})
+popupClose.addEventListener ('click', function (evt){
+  closeModal(popupTypeEdit)
+})
