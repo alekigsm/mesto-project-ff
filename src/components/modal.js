@@ -12,17 +12,17 @@ function closeModal (closeModal){
 }
 
 function initModal (){
-const popupTypeEdit = document.querySelector('.popup_type_edit');
+const popupEdit = document.querySelector('.popup_type_edit');
 document.addEventListener('click', function (evt){
-  if(popupTypeEdit.classList.contains('popup_is-opened') && evt.target === popupTypeEdit){
-    closeModal(popupTypeEdit)
+  if(popupEdit.classList.contains('popup_is-opened') && evt.target === popupEdit){
+    closeModal(popupEdit)
   }  
   });
 
 
 document.addEventListener('keydown', function (evt) {
   if(evt.key === 'Escape'){
-    closeModal(popupTypeEdit)
+    closeModal(popupEdit)
   }
 });
 }
