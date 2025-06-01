@@ -4,6 +4,7 @@ function openModal(popupModal) {
 
 function closeModal(closeModal) {
   closeModal.classList.remove('popup_is-opened');
+  closeModal.classList.add('popup_is-animated');
 }
 
 function initModal(popupEdit) {
@@ -26,4 +27,5 @@ function initModal(popupEdit) {
     }
   });
 }
+
 export { closeModal, openModal, initModal };

@@ -6,7 +6,8 @@ const createCard = (
   cardTitle = 'затычкатайтла',
   cardImage = '#',
   deleteCallback,
-  likeCallback
+  likeCallback,
+  imgCallback
 ) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   cardElement.querySelector('.card__title').textContent = cardTitle;
@@ -19,18 +20,23 @@ const createCard = (
   cardElement
     .querySelector('.card__like-button')
     .addEventListener('click', (evt) => likeCallback(cardElement));
+  cardElement
+    .querySelector('.card__image')
+    .addEventListener('click', (evt) => imgCallback(cardElement));
   return cardElement;
 };
 
 // @todo: Функция удаления карточки
 const deleteCard = (cardElement) => cardElement.remove();
+// @todo: Функция добавления/удаления лайка
 const likeCard = (cardElement) => {
   const likeBtn = cardElement.querySelector('.card__like-button');
 
-  if (likeBtn.classList.contains('card__like-button_is-active') === false) {
-    likeBtn.classList.add('card__like-button_is-active');
-  } else {
+  if (likeBtn.classList.contains('card__like-button_is-active')) {
     likeBtn.classList.remove('card__like-button_is-active');
+  } else {
+    likeBtn.classList.add('card__like-button_is-active');
   }
 };
+
 export { createCard, deleteCard, likeCard };

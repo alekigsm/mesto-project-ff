@@ -11,15 +11,35 @@ const placesList = content.querySelector('.places__list');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const popupEdit = document.querySelector('.popup_type_edit');
+
 initModal(popupEdit);
 const profileAddButton = document.querySelector('.profile__add-button');
+
+const popupImg = document.querySelector('.popup_type_image');
+initModal(popupImg);
 
 const popupNewCard = document.querySelector('.popup_type_new-card');
 initModal(popupNewCard);
 
+function popupImgOpen(cardElement) {
+  const cardUrl = cardElement.querySelector('.card__image').src;
+  const cardAlt = cardElement.querySelector('.card__image').alt;
+  popupImg.querySelector('.popup__image').src = cardUrl;
+  popupImg.querySelector('.popup__image').alt = cardAlt;
+  const cardCaption = cardElement.querySelector('.card__title').textContent;
+  popupImg.querySelector('.popup__caption').textContent = cardCaption;
+  openModal(popupImg);
+}
+
 // @todo: Вывести карточки на страницу
 initialCards.forEach((card) => {
-  const cardElement = createCard(card.name, card.link, deleteCard, likeCard);
+  const cardElement = createCard(
+    card.name,
+    card.link,
+    deleteCard,
+    likeCard,
+    popupImgOpen
+  );
   placesList.append(cardElement);
 });
 
@@ -46,20 +66,19 @@ profileAddButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     const newName = newForm.elements['place-name'].value;
     const newLink = newForm.elements['link'].value;
-    const cardElement = createCard(newName, newLink, deleteCard, likeCard);
+    const cardElement = createCard(
+      newName,
+      newLink,
+      deleteCard,
+      likeCard,
+      popupImgOpen
+    );
     placesList.prepend(cardElement);
     closeModal(popupNewCard);
   });
   evt.stopPropagation();
 });
 
-//откр. закр через картинку
-popupTypeImage.forEach((image) => {
-  image.addEventListener('click', (evt) => {
-    openModal(popupEdit);
-    evt.stopPropagation();
-  });
-});
 // Находим форму в DOM
 const formElement = document.forms['edit-profile']; //document.querySelector(#edit-profile)
 // Находим поля формы в DOM
