@@ -74,6 +74,7 @@ profileAddButton.addEventListener('click', (evt) => {
       popupImgOpen
     );
     placesList.prepend(cardElement);
+    newForm.reset();
     closeModal(popupNewCard);
   });
   evt.stopPropagation();
