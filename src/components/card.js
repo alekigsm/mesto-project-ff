@@ -1,6 +1,5 @@
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
-
 // @todo: Функция создания карточки
 const createCard = (cardData, onDeleteCard, onLikeCard, onOpenImagePopup) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
@@ -10,7 +9,7 @@ const createCard = (cardData, onDeleteCard, onLikeCard, onOpenImagePopup) => {
   cardElement.querySelector('.card__title').textContent = cardData.name;
   cardElement.querySelector('.card__image').src = cardData.link;
   cardElement.querySelector('.card__image').alt = cardData.alt;
-  
+
   deleteCardButton.addEventListener('click', () => onDeleteCard(cardElement));
   cardImage.addEventListener('click', () => onOpenImagePopup(cardElement));
   likeButton.addEventListener('click', () => onLikeCard(cardElement));
