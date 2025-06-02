@@ -43,12 +43,10 @@ const newForm = document.forms['new-place'];
 const newNameInput = newForm.elements['place-name'];
 const newLinkInput = newForm.elements['link'];
 
-function openImagePopup(cardElement) {
-  const cardImageElement = cardElement.querySelector('.card__image');
-  const cardCaption = cardElement.querySelector('.card__title').textContent;
-  popupImage.src = cardImageElement.src;
-  popupImage.alt = cardImageElement.alt;
-  popupCaption.textContent = cardCaption;
+function openImagePopup(data) {
+  popupImage.src = data.link;
+  popupImage.alt = data.name;
+  popupCaption.textContent = data.name;
   openModal(imagePopupContainer);
 }
 

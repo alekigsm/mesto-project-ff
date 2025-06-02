@@ -1,3 +1,16 @@
+function doSomething(evt) {
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_is-opened');
+    closeModal(popup);
+  }
+}
+
+function overlayClick(evt) {
+  const popupOpen = document.querySelector('.popup_is-opened');
+  if (popupOpen && evt.target === popupOpen) {
+    closeModal(popupOpen);
+  }
+}
 function openModal(popupModal) {
   popupModal.classList.add('popup_is-opened');
   document.addEventListener('keydown', doSomething);
@@ -18,17 +31,4 @@ function initModal(popupEdit) {
   });
 }
 
-function doSomething(evt) {
-  if (evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_is-opened');
-    closeModal(popup);
-  }
-}
-
-function overlayClick(evt) {
-  const popupOpen = document.querySelector('.popup_is-opened');
-  if (popupOpen && evt.target === popupOpen) {
-    closeModal(popupOpen);
-  }
-}
 export { closeModal, openModal, initModal };
