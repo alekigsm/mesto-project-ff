@@ -24,11 +24,11 @@ function closeModal(closeModal) {
   document.removeEventListener('click', overlayClick);
 }
 
-function initModal(popupEdit) {
+function popup(popupEdit) {
   const popupClose = popupEdit.querySelector('.popup__close');
   popupClose.addEventListener('click', () => {
     closeModal(popupEdit);
   });
 }
 
-export { closeModal, openModal, initModal };
+export { closeModal, openModal, popup };

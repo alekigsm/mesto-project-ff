@@ -2,7 +2,7 @@
 
 import './pages/index.css'; // добавьте импорт главного файла стилей
 import { initialCards } from './components/cards.js';
-import { closeModal, openModal, initModal } from './components/modal.js';
+import { closeModal, openModal, popup } from './components/modal.js';
 import { createCard, deleteCard, likeCard } from './components/card.js';
 
 // @todo: DOM узлы
@@ -11,7 +11,7 @@ const placesList = content.querySelector('.places__list');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const popupEdit = document.querySelector('.popup_type_edit');
-initModal(popupEdit);
+popup(popupEdit);
 
 // Выберите элементы, куда должны быть вставлены значения полей
 const profileName = document.querySelector('.profile__title');
@@ -20,10 +20,10 @@ const profileJob = document.querySelector('.profile__description');
 const profileAddButton = document.querySelector('.profile__add-button');
 
 const imagePopupContainer = document.querySelector('.popup_type_image');
-initModal(imagePopupContainer);
+popup(imagePopupContainer);
 
 const popupNewCard = document.querySelector('.popup_type_new-card');
-initModal(popupNewCard);
+popup(popupNewCard);
 
 const profileInfoInputName = popupEdit.querySelector('.popup__input_type_name');
 const profileInfoInputDescription = popupEdit.querySelector(
@@ -31,7 +31,7 @@ const profileInfoInputDescription = popupEdit.querySelector(
 );
 
 const popupImage = imagePopupContainer.querySelector('.popup__image');
-const popupCaption = imagePopupContainer.querySelector('.popup__caption');
+const popupImageCaption = imagePopupContainer.querySelector('.popup__caption');
 
 // работа с формой
 // Находим форму в DOM
@@ -39,14 +39,14 @@ const formElementEditProfile = document.forms['edit-profile']; //document.queryS
 // Находим поля формы в DOM
 const nameInput = formElementEditProfile.elements.name;
 const jobInput = formElementEditProfile.elements.description;
-const newForm = document.forms['new-place'];
-const newNameInput = newForm.elements['place-name'];
-const newLinkInput = newForm.elements['link'];
+const newPlaceCardForm = document.forms['new-place'];
+const inputNameFormNewCard = newPlaceCardForm.elements['place-name'];
+const inputLinkFormNewCard = newPlaceCardForm.elements['link'];
 
 function openImagePopup(data) {
   popupImage.src = data.link;
   popupImage.alt = data.name;
-  popupCaption.textContent = data.name;
+  popupImageCaption.textContent = data.name;
   openModal(imagePopupContainer);
 }
 
@@ -71,9 +71,12 @@ profileEditButton.addEventListener('click', function (evt) {
 
 // откр. закр через  +
 
-newForm.addEventListener('submit', function (evt) {
+newPlaceCardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  const cardData = { name: newNameInput.value, link: newLinkInput.value };
+  const cardData = {
+    name: inputNameFormNewCard.value,
+    link: inputLinkFormNewCard.value,
+  };
   const cardElement = createCard(
     cardData,
     deleteCard,
@@ -81,7 +84,7 @@ newForm.addEventListener('submit', function (evt) {
     openImagePopup
   );
   placesList.prepend(cardElement);
-  newForm.reset();
+  newPlaceCardForm.reset();
   closeModal(popupNewCard);
 });
 
