@@ -2,7 +2,7 @@
 
 import './pages/index.css'; // добавьте импорт главного файла стилей
 import { initialCards } from './components/cards.js';
-import { closeModal, openModal, popup } from './components/modal.js';
+import { closeModal, openModal, setupPopupClose } from './components/modal.js';
 import { createCard, deleteCard, likeCard } from './components/card.js';
 
 // @todo: DOM узлы
@@ -11,7 +11,7 @@ const placesList = content.querySelector('.places__list');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const popupEdit = document.querySelector('.popup_type_edit');
-popup(popupEdit);
+setupPopupClose(popupEdit);
 
 // Выберите элементы, куда должны быть вставлены значения полей
 const profileName = document.querySelector('.profile__title');
@@ -20,10 +20,10 @@ const profileJob = document.querySelector('.profile__description');
 const profileAddButton = document.querySelector('.profile__add-button');
 
 const imagePopupContainer = document.querySelector('.popup_type_image');
-popup(imagePopupContainer);
+setupPopupClose(imagePopupContainer);
 
 const popupNewCard = document.querySelector('.popup_type_new-card');
-popup(popupNewCard);
+setupPopupClose(popupNewCard);
 
 const profileInfoInputName = popupEdit.querySelector('.popup__input_type_name');
 const profileInfoInputDescription = popupEdit.querySelector(

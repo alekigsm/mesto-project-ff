@@ -16,8 +16,10 @@
     "fixAndBuild": "npm run fixAll && npm run build",
     "lintfixAndPush": "npm run fixAll && git add . && git commit -m 'подготовили к публикации' && git push"
   },
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "core-js": "^3.42.0",
+    "jquery": "^3.7.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
@@ -38,12 +40,9 @@
     "stylelint": "^15.4.0",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.1"
+    "webpack-dev-server": "^5.2.2"
   },
   "browserslist": [
     "last 5 versions"
-  ],
-  "dependencies": {
-    "core-js": "^3.42.0"
-  }
+  ]
 }
