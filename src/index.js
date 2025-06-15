@@ -1,10 +1,11 @@
 // index.js
 
 import './pages/index.css'; // добавьте импорт главного файла стилей
-import { initialCards } from './components/cards.js';
+import api from './components/api.js';
 import { closeModal, openModal, setupPopupClose } from './components/modal.js';
 import { createCard, deleteCard, likeCard } from './components/card.js';
-import {enableValidation, clearValidation} from './components/validation.js';
+import { enableValidation, clearValidation } from './components/validation.js';
+
 // @todo: DOM узлы
 const content = document.querySelector('.content');
 const placesList = content.querySelector('.places__list');
@@ -16,7 +17,7 @@ setupPopupClose(popupEdit);
 // Выберите элементы, куда должны быть вставлены значения полей
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__description');
-
+const profileImage = document.querySelector('.profile__image')
 const profileAddButton = document.querySelector('.profile__add-button');
 
 const imagePopupContainer = document.querySelector('.popup_type_image');
@@ -44,6 +45,7 @@ const newPlaceCardForm = document.forms['new-place'];
 const inputNameFormNewCard = newPlaceCardForm.elements['place-name'];
 const inputLinkFormNewCard = newPlaceCardForm.elements['link'];
 
+
 const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -62,26 +64,31 @@ function openImagePopup(data) {
 }
 
 // @todo: Вывести карточки на страницу
-initialCards.forEach((card) => {
-  const cardElement = createCard(card, deleteCard, likeCard, openImagePopup);
-  placesList.append(cardElement);
-});
+Promise.all([api.getCards(), api.getProfile()])
+  .then((results) => {
+    results[0].forEach((card) => {
+      const cardElement = createCard(card, deleteCard, likeCard, openImagePopup);
+      placesList.append(cardElement);
+    });
 
-// откр. закр редактора карточки
+    profileName.textContent = results[1].name;
+    profileJob.textContent = results[1].about;
+    profileImage.style = `background-image: url(${results[1].avatar})`;
+    return results
+  });
 
+
+// откр/ редактора карточки
 profileEditButton.addEventListener('click', function (evt) {
   profileInfoInputName.value = profileName.textContent;
   profileInfoInputDescription.value = profileJob.textContent;
- // clearValidation(formElementEditProfile, validationConfig)
   openModal(popupEdit);
+  clearValidation(popupEdit, validationConfig)
   evt.stopPropagation();
 });
 
 
-
-
-// откр. закр через  +
-
+// закр через  +
 newPlaceCardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
   const cardData = {
@@ -95,13 +102,13 @@ newPlaceCardForm.addEventListener('submit', function (evt) {
     openImagePopup
   );
   placesList.prepend(cardElement);
-  //clearValidation(newPlaceCardForm, validationConfig)
+  api.addNewCard(inputNameFormNewCard.value, inputLinkFormNewCard.value);
   newPlaceCardForm.reset();
   closeModal(popupNewCard);
-  
 });
 
 profileAddButton.addEventListener('click', (evt) => {
+  clearValidation(popupNewCard, validationConfig)
   openModal(popupNewCard);
   evt.stopPropagation();
 });
@@ -120,10 +127,10 @@ function handleFormSubmitEditProfile(evt) {
   // Вставьте новые значения с помощью textContent
   profileName.textContent = nameValue;
   profileJob.textContent = jobValue;
+  api.updateEditProfile(nameValue, jobValue)
   closeModal(popupEdit);
 }
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 formElementEditProfile.addEventListener('submit', handleFormSubmitEditProfile);
-

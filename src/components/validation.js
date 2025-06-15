@@ -114,22 +114,17 @@ const enableValidation = (validationConfig) => {
     setEventListeners(popupElement, validationConfig);
   });
 };
-/* 
-// Вызовем функцию
-enableValidation();
 
 
-// очистка ошибок валидации вызовом clearValidation
-
-clearValidation(profileForm, validationConfig);
-
- */
-
-const clearValidation = () => {
-  /*     const formList = Array.from(document.querySelectorAll('.popup__form'));
-        formList.forEach((popupElement) => { */
-
-
+const clearValidation = (popupElement, validationConfig) => {
+  const inputList = Array.from(popupElement.querySelectorAll(validationConfig.inputSelector));
+  inputList.forEach((input) => {
+    input.setCustomValidity('')
+    hideInputError(popupElement, input, validationConfig);
+  })
+  const btn = popupElement.querySelector(validationConfig.submitButtonSelector)
+  btn.disabled = true;
+  btn.classList.add(validationConfig.inactiveButtonClass);
 };
 
 
