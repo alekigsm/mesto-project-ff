@@ -118,8 +118,8 @@ const deleteCard = (cardId) => {
                 return res.json();
             }
 
-            /* отклоняем промис, чтобы перейти
-            в блок catch, если сервер вернул ошибку */
+            //отклоняем промис, чтобы перейти    в блок catch, если сервер вернул ошибку 
+        
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
         })
         .then((data) => {

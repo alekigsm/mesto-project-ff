@@ -64,16 +64,16 @@ function openImagePopup(data) {
 }
 
 // @todo: Вывести карточки на страницу
-Promise.all([api.getCards(), api.getProfile()])
+Promise.all([api.getProfile(), api.getCards()])
   .then((results) => {
-    results[0].forEach((card) => {
-      const cardElement = createCard(card, deleteCard, likeCard, openImagePopup);
+    profileName.textContent = results[0].name;
+    profileJob.textContent = results[0].about;
+    profileImage.style = `background-image: url(${results[0].avatar})`;
+    results[1].forEach((card) => {
+      const cardElement = createCard(card, deleteCard, likeCard, openImagePopup, profileName.textContent);
       placesList.append(cardElement);
     });
 
-    profileName.textContent = results[1].name;
-    profileJob.textContent = results[1].about;
-    profileImage.style = `background-image: url(${results[1].avatar})`;
     return results
   });
 
@@ -91,20 +91,20 @@ profileEditButton.addEventListener('click', function (evt) {
 // закр через  +
 newPlaceCardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  const cardData = {
-    name: inputNameFormNewCard.value,
-    link: inputLinkFormNewCard.value,
-  };
-  const cardElement = createCard(
-    cardData,
-    deleteCard,
-    likeCard,
-    openImagePopup
-  );
-  placesList.prepend(cardElement);
-  api.addNewCard(inputNameFormNewCard.value, inputLinkFormNewCard.value);
-  newPlaceCardForm.reset();
-  closeModal(popupNewCard);
+  api.addNewCard(inputNameFormNewCard.value, inputLinkFormNewCard.value)
+    .then((res) => {
+      const cardElement = createCard(
+        res,
+        deleteCard,
+        likeCard,
+        openImagePopup,
+        profileName.textContent
+      );
+      placesList.prepend(cardElement);
+      newPlaceCardForm.reset();
+      closeModal(popupNewCard);
+    });
+
 });
 
 profileAddButton.addEventListener('click', (evt) => {

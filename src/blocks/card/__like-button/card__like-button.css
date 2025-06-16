@@ -22,6 +22,9 @@
 .card__like {
   display: flex;
   gap: 3px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .card__likes_count {
