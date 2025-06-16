@@ -12,17 +12,17 @@ const createCard = (cardData, onDeleteCard, onLikeCard, onOpenImagePopup, ownerN
   cardElement.querySelector('.card__title').textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardData.alt;
-  counterLikeCard.textContent=cardData.likes.length;
+  counterLikeCard.textContent = cardData.likes.length;
 
-  if (cardData.owner.name === ownerName)
-  {
-    deleteCardButton.style='';
+  if (cardData.owner.name === ownerName) {
+    deleteCardButton.style = '';
     deleteCardButton.addEventListener('click', () => onDeleteCard(cardElement, cardData._id));
   }
   cardImage.addEventListener('click', () => onOpenImagePopup(cardData));
-  likeButton.addEventListener('click', () => onLikeCard(likeButton, counterLikeCard ));
+  likeButton.addEventListener('click', () => onLikeCard(cardData._id, likeButton, counterLikeCard));
   return cardElement;
 };
+
 
 // @todo: Функция удаления карточки
 const deleteCard = (cardElement, cardId) => {
@@ -31,14 +31,17 @@ const deleteCard = (cardElement, cardId) => {
 }
 // @todo: Функция добавления/удаления лайка
 
-const likeCard = (likeButton, counterLikeCard) => {
-   const currentLikes = parseInt(counterLikeCard.textContent);
+const likeCard = (cardId, likeButton, counterLikeCard) => {
   if (likeButton.classList.contains('card__like-button_is-active')) {
     likeButton.classList.remove('card__like-button_is-active');
-    counterLikeCard.textContent = currentLikes - 1;
+    api.updateLikeCard(cardId, false).then((res) => {
+      counterLikeCard.textContent = res.likes.length;
+    })
   } else {
     likeButton.classList.add('card__like-button_is-active');
-    counterLikeCard.textContent = currentLikes + 1;
+    api.updateLikeCard(cardId, true).then((res) => {
+      counterLikeCard.textContent = res.likes.length;
+    })
   }
 };
 

@@ -130,4 +130,29 @@ const deleteCard = (cardId) => {
         });
 }
 
-export default { getCards, getProfile, updateEditProfile, addNewCard, deleteCard }
+const updateLikeCard = (cardId, isLike) => {
+    return fetch(`https://nomoreparties.co/v1/wff-cohort-41/cards/likes/${cardId}`, {
+        method: isLike ? 'PUT': 'DELETE',
+        headers: {
+            authorization: token,
+            'Content-Type': 'application/json'
+        },
+    })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            //отклоняем промис, чтобы перейти    в блок catch, если сервер вернул ошибку 
+        
+            return Promise.reject(`Что-то пошло не так: ${res.status}`);
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((err) => {
+            console.log(err); // "Что-то пошло не так: ..."
+        });
+}
+
+export default { getCards, getProfile, updateEditProfile, addNewCard, deleteCard, updateLikeCard }

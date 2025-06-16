@@ -83,7 +83,7 @@ profileEditButton.addEventListener('click', function (evt) {
   profileInfoInputName.value = profileName.textContent;
   profileInfoInputDescription.value = profileJob.textContent;
   openModal(popupEdit);
-  clearValidation(popupEdit, validationConfig)
+  clearValidation(popupEdit, validationConfig);
   evt.stopPropagation();
 });
 
@@ -108,7 +108,7 @@ newPlaceCardForm.addEventListener('submit', function (evt) {
 });
 
 profileAddButton.addEventListener('click', (evt) => {
-  clearValidation(popupNewCard, validationConfig)
+  clearValidation(popupNewCard, validationConfig);
   openModal(popupNewCard);
   evt.stopPropagation();
 });
@@ -127,7 +127,7 @@ function handleFormSubmitEditProfile(evt) {
   // Вставьте новые значения с помощью textContent
   profileName.textContent = nameValue;
   profileJob.textContent = jobValue;
-  api.updateEditProfile(nameValue, jobValue)
+  api.updateEditProfile(nameValue, jobValue);
   closeModal(popupEdit);
 }
 
