@@ -53,11 +53,6 @@ setupPopupClose(popupTypeAva)
 const updateAva = document.forms['new-ava'];
 const inputLinkAva = updateAva.elements['link'];
 
-updateAva.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-  api.updateProfileAvatar(inputLinkAva.value)
-  updateAva.reset();
-});
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -105,6 +100,15 @@ profileEditIcon.addEventListener('click', function (evt) {
   clearValidation(popupTypeAva, validationConfig);
   evt.stopPropagation();
 })
+updateAva.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  api.updateProfileAvatar(inputLinkAva.value)
+  .then((result) => {
+  profileImage.style = `background-image: url(${result.avatar})` ;
+  })
+  updateAva.reset();
+  closeModal(popupTypeAva);
+});
 
 
 

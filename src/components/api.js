@@ -15,9 +15,6 @@ const getCards = () => {
             в блок catch, если сервер вернул ошибку */
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
         })
-        .then((data) => {
-            return data
-        })
         .catch((err) => {
             console.log(err); // "Что-то пошло не так: ..."
         });
@@ -37,9 +34,6 @@ const getProfile = () => {
             /* отклоняем промис, чтобы перейти
             в блок catch, если сервер вернул ошибку */
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
-        })
-        .then((data) => {
-            return data;
         })
         .catch((err) => {
             console.log(err); // "Что-то пошло не так: ..."
@@ -67,9 +61,6 @@ const updateEditProfile = (nameValue, jobValue) => {
             в блок catch, если сервер вернул ошибку */
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
         })
-        .then((data) => {
-            return data;
-        })
         .catch((err) => {
             console.log(err); // "Что-то пошло не так: ..."
         });
@@ -96,9 +87,6 @@ const addNewCard = (inputNameFormNewCardValue, inputLinkFormNewCardValue) => {
             в блок catch, если сервер вернул ошибку */
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
         })
-        .then((data) => {
-            return data;
-        })
         .catch((err) => {
             console.log(err); // "Что-то пошло не так: ..."
         });
@@ -122,9 +110,6 @@ const deleteCard = (cardId) => {
         
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
         })
-        .then((data) => {
-            return data;
-        })
         .catch((err) => {
             console.log(err); // "Что-то пошло не так: ..."
         });
@@ -146,9 +131,6 @@ const updateLikeCard = (cardId, isLike) => {
             //отклоняем промис, чтобы перейти    в блок catch, если сервер вернул ошибку 
         
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
-        })
-        .then((data) => {
-            return data;
         })
         .catch((err) => {
             console.log(err); // "Что-то пошло не так: ..."
@@ -174,9 +156,6 @@ const updateProfileAvatar = (inputLinkAva) => {
             /* отклоняем промис, чтобы перейти
             в блок catch, если сервер вернул ошибку */
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
-        })
-        .then((data) => {
-            return data;
         })
         .catch((err) => {
             console.log(err); // "Что-то пошло не так: ..."
