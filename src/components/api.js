@@ -155,4 +155,31 @@ const updateLikeCard = (cardId, isLike) => {
         });
 }
 
-export default { getCards, getProfile, updateEditProfile, addNewCard, deleteCard, updateLikeCard }
+const updateProfileAvatar = (inputLinkAva) => {
+    return fetch('https://nomoreparties.co/v1/wff-cohort-41/users/me/avatar', {
+        method: 'PATCH',
+        headers: {
+            authorization: token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            avatar: inputLinkAva
+        })
+    })
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            /* отклоняем промис, чтобы перейти
+            в блок catch, если сервер вернул ошибку */
+            return Promise.reject(`Что-то пошло не так: ${res.status}`);
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((err) => {
+            console.log(err); // "Что-то пошло не так: ..."
+        });
+}
+export default { getCards, getProfile, updateEditProfile, addNewCard, deleteCard, updateLikeCard, updateProfileAvatar }

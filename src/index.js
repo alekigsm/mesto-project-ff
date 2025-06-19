@@ -11,6 +11,9 @@ const content = document.querySelector('.content');
 const placesList = content.querySelector('.places__list');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
+// icon
+const profileEditIcon = document.querySelector('.profile__edit-icon');
+
 const popupEdit = document.querySelector('.popup_type_edit');
 setupPopupClose(popupEdit);
 
@@ -36,7 +39,7 @@ const popupImageCaption = imagePopupContainer.querySelector('.popup__caption');
 
 // работа с формой
 // Находим форму в DOM
-const formElementEditProfile = document.forms['edit-profile']; //document.querySelector(#edit-profile)
+const formElementEditProfile = document.forms['edit-profile'];
 // Находим поля формы в DOM
 const nameInput = formElementEditProfile.elements.name;
 const jobInput = formElementEditProfile.elements.description;
@@ -44,7 +47,17 @@ const jobInput = formElementEditProfile.elements.description;
 const newPlaceCardForm = document.forms['new-place'];
 const inputNameFormNewCard = newPlaceCardForm.elements['place-name'];
 const inputLinkFormNewCard = newPlaceCardForm.elements['link'];
+//// icon form
+const popupTypeAva = document.querySelector('.popup_type_ava')
+setupPopupClose(popupTypeAva)
+const updateAva = document.forms['new-ava'];
+const inputLinkAva = updateAva.elements['link'];
 
+updateAva.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  api.updateProfileAvatar(inputLinkAva.value)
+  updateAva.reset();
+});
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -86,6 +99,13 @@ profileEditButton.addEventListener('click', function (evt) {
   clearValidation(popupEdit, validationConfig);
   evt.stopPropagation();
 });
+
+profileEditIcon.addEventListener('click', function (evt) {
+  openModal(popupTypeAva);
+  clearValidation(popupTypeAva, validationConfig);
+  evt.stopPropagation();
+})
+
 
 
 // закр через  +
