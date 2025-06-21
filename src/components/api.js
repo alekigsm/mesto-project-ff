@@ -1,10 +1,16 @@
+const config = {
+    baseUrl: 'https://nomoreparties.co/v1/wff-cohort-41',
+    headers: {
+        authorization: 'cc30cf87-5e95-4f37-b531-4cbe11b441db',
+        'Content-Type': 'application/json'
+    }
+}
+
 const token = 'cc30cf87-5e95-4f37-b531-4cbe11b441db'
 
 const getCards = () => {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-41/cards', {
-        headers: {
-            authorization: token
-        }
+    return fetch(`${config.baseUrl}/cards`, {
+        headers: config.headers
     })
         .then((res) => {
             if (res.ok) {
@@ -21,13 +27,11 @@ const getCards = () => {
 }
 
 const getProfile = () => {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-41/users/me', {
-        headers: {
-            authorization: token
-        }
+    return fetch(`${config.baseUrl}/users/me`, {
+        headers: config.headers
     })
         .then((res) => {
-            if (res.ok) {
+            if (res.ok) { 
                 return res.json();
             }
 
@@ -41,12 +45,9 @@ const getProfile = () => {
 }
 
 const updateEditProfile = (nameValue, jobValue) => {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-41/users/me', {
+    return fetch(`${config.baseUrl}/users/me`, {
         method: 'PATCH',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json'
-        },
+        headers: config.headers,
         body: JSON.stringify({
             name: nameValue,
             about: jobValue
@@ -67,12 +68,9 @@ const updateEditProfile = (nameValue, jobValue) => {
 }
 
 const addNewCard = (inputNameFormNewCardValue, inputLinkFormNewCardValue) => {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-41/cards', {
+    return fetch(`${config.baseUrl}/cards`, {
         method: 'POST',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json'
-        },
+        headers: config.headers,
         body: JSON.stringify({
             name: inputNameFormNewCardValue,
             link: inputLinkFormNewCardValue
@@ -94,12 +92,9 @@ const addNewCard = (inputNameFormNewCardValue, inputLinkFormNewCardValue) => {
 
 
 const deleteCard = (cardId) => {
-    return fetch(`https://nomoreparties.co/v1/wff-cohort-41/cards/${cardId}`, {
+    return fetch(`${config.baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json'
-        },
+       headers: config.headers,
     })
         .then((res) => {
             if (res.ok) {
@@ -107,7 +102,7 @@ const deleteCard = (cardId) => {
             }
 
             //отклоняем промис, чтобы перейти    в блок catch, если сервер вернул ошибку 
-        
+
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
         })
         .catch((err) => {
@@ -116,12 +111,9 @@ const deleteCard = (cardId) => {
 }
 
 const updateLikeCard = (cardId, isLike) => {
-    return fetch(`https://nomoreparties.co/v1/wff-cohort-41/cards/likes/${cardId}`, {
-        method: isLike ? 'PUT': 'DELETE',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json'
-        },
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        method: isLike ? 'PUT' : 'DELETE',
+       headers: config.headers,
     })
         .then((res) => {
             if (res.ok) {
@@ -129,7 +121,7 @@ const updateLikeCard = (cardId, isLike) => {
             }
 
             //отклоняем промис, чтобы перейти    в блок catch, если сервер вернул ошибку 
-        
+
             return Promise.reject(`Что-то пошло не так: ${res.status}`);
         })
         .catch((err) => {
@@ -138,12 +130,9 @@ const updateLikeCard = (cardId, isLike) => {
 }
 
 const updateProfileAvatar = (inputLinkAva) => {
-    return fetch('https://nomoreparties.co/v1/wff-cohort-41/users/me/avatar', {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json'
-        },
+       headers: config.headers,
         body: JSON.stringify({
             avatar: inputLinkAva
         })

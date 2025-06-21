@@ -107,6 +107,7 @@ updateAva.addEventListener('submit', function (evt) {
   profileImage.style = `background-image: url(${result.avatar})` ;
   })
   updateAva.reset();
+  saveBtn(evt, true)
   closeModal(popupTypeAva);
 });
 
@@ -126,6 +127,7 @@ newPlaceCardForm.addEventListener('submit', function (evt) {
       );
       placesList.prepend(cardElement);
       newPlaceCardForm.reset();
+      saveBtn(evt, true)
       closeModal(popupNewCard);
     });
 
@@ -137,10 +139,24 @@ profileAddButton.addEventListener('click', (evt) => {
   evt.stopPropagation();
 });
 
+function saveBtn(evt, load) {
+  const submitButton = evt.submitter;
+    if(load)
+    {
+      submitButton.textContent = 'Сохранение...';
+      submitButton.disablaed = true;
+    }
+    else {
+      submitButton.textContent = 'Сохранить';
+      submitButton.disablaed = false;
+    }
+}
+
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function handleFormSubmitEditProfile(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+ 
   // Так мы можем определить свою логику отправки.
   // О том, как это делать, расскажем позже.
 
@@ -152,6 +168,7 @@ function handleFormSubmitEditProfile(evt) {
   profileName.textContent = nameValue;
   profileJob.textContent = jobValue;
   api.updateEditProfile(nameValue, jobValue);
+  saveBtn(evt, true)
   closeModal(popupEdit);
 }
 
