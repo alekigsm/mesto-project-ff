@@ -1,3 +1,3 @@
 # Проектная работа Mesto
 
-https://github.com/alekigsm/mesto-project-ff
+https://alekigsm.github.io/mesto-project-ff/
