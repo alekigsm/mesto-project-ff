@@ -31,7 +31,7 @@ const getProfile = () => {
         headers: config.headers
     })
         .then((res) => {
-            if (res.ok) { 
+            if (res.ok) {
                 return res.json();
             }
 
@@ -94,7 +94,7 @@ const addNewCard = (inputNameFormNewCardValue, inputLinkFormNewCardValue) => {
 const deleteCard = (cardId) => {
     return fetch(`${config.baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
-       headers: config.headers,
+        headers: config.headers,
     })
         .then((res) => {
             if (res.ok) {
@@ -113,7 +113,7 @@ const deleteCard = (cardId) => {
 const updateLikeCard = (cardId, isLike) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: isLike ? 'PUT' : 'DELETE',
-       headers: config.headers,
+        headers: config.headers,
     })
         .then((res) => {
             if (res.ok) {
@@ -132,7 +132,7 @@ const updateLikeCard = (cardId, isLike) => {
 const updateProfileAvatar = (inputLinkAva) => {
     return fetch(`${config.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
-       headers: config.headers,
+        headers: config.headers,
         body: JSON.stringify({
             avatar: inputLinkAva
         })

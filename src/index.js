@@ -103,9 +103,9 @@ profileEditIcon.addEventListener('click', function (evt) {
 updateAva.addEventListener('submit', function (evt) {
   evt.preventDefault();
   api.updateProfileAvatar(inputLinkAva.value)
-  .then((result) => {
-  profileImage.style = `background-image: url(${result.avatar})` ;
-  })
+    .then((result) => {
+      profileImage.style = `background-image: url(${result.avatar})`;
+    })
   updateAva.reset();
   saveBtn(evt, true)
   closeModal(popupTypeAva);
@@ -141,22 +141,21 @@ profileAddButton.addEventListener('click', (evt) => {
 
 function saveBtn(evt, load) {
   const submitButton = evt.submitter;
-    if(load)
-    {
-      submitButton.textContent = 'Сохранение...';
-      submitButton.disablaed = true;
-    }
-    else {
-      submitButton.textContent = 'Сохранить';
-      submitButton.disablaed = false;
-    }
+  if (load) {
+    submitButton.textContent = 'Сохранение...';
+    submitButton.disablaed = true;
+  }
+  else {
+    submitButton.textContent = 'Сохранить';
+    submitButton.disablaed = false;
+  }
 }
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function handleFormSubmitEditProfile(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
- 
+
   // Так мы можем определить свою логику отправки.
   // О том, как это делать, расскажем позже.
 
