@@ -15,12 +15,12 @@
 }
 
 .popup__input_type_error {
-	border-bottom-color: red;
+  border-bottom-color: red;
 }
 
 .popup__error_visible {
-	color: red;
-	font-size: 12px;
+  color: red;
+  font-size: 12px;
 }
 
 @media screen and (max-width: 568px) {

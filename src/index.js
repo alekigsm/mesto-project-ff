@@ -20,7 +20,7 @@ setupPopupClose(popupEdit);
 // Выберите элементы, куда должны быть вставлены значения полей
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__description');
-const profileImage = document.querySelector('.profile__image')
+const profileImage = document.querySelector('.profile__image');
 const profileAddButton = document.querySelector('.profile__add-button');
 
 const imagePopupContainer = document.querySelector('.popup_type_image');
@@ -48,11 +48,10 @@ const newPlaceCardForm = document.forms['new-place'];
 const inputNameFormNewCard = newPlaceCardForm.elements['place-name'];
 const inputLinkFormNewCard = newPlaceCardForm.elements['link'];
 //// icon form
-const popupTypeAva = document.querySelector('.popup_type_ava')
-setupPopupClose(popupTypeAva)
+const popupTypeAva = document.querySelector('.popup_type_ava');
+setupPopupClose(popupTypeAva);
 const updateAva = document.forms['new-ava'];
 const inputLinkAva = updateAva.elements['link'];
-
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -60,7 +59,7 @@ const validationConfig = {
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
+  errorClass: 'popup__error_visible',
 };
 enableValidation(validationConfig);
 
@@ -70,21 +69,30 @@ function openImagePopup(data) {
   popupImageCaption.textContent = data.name;
   openModal(imagePopupContainer);
 }
-
+let userId;
 // @todo: Вывести карточки на страницу
 Promise.all([api.getProfile(), api.getCards()])
-  .then((results) => {
-    profileName.textContent = results[0].name;
-    profileJob.textContent = results[0].about;
-    profileImage.style = `background-image: url(${results[0].avatar})`;
-    results[1].forEach((card) => {
-      const cardElement = createCard(card, deleteCard, likeCard, openImagePopup, profileName.textContent);
+  .then(([userData, cardsArray]) => {
+    userId = userData._id;
+    profileName.textContent = userData.name;
+    profileJob.textContent = userData.about;
+    profileImage.style = `background-image: url(${userData.avatar})`;
+    cardsArray.forEach((card) => {
+      const cardElement = createCard(
+        card,
+        deleteCard,
+        likeCard,
+        openImagePopup,
+        userId
+      );
       placesList.append(cardElement);
     });
 
-    return results
+    // Нет необходимости возвращать данные return results
+  })
+  .catch((err) => {
+    console.log(err); // "Что-то пошло не так: ..."
   });
-
 
 // откр/ редактора карточки
 profileEditButton.addEventListener('click', function (evt) {
@@ -99,38 +107,47 @@ profileEditIcon.addEventListener('click', function (evt) {
   openModal(popupTypeAva);
   clearValidation(popupTypeAva, validationConfig);
   evt.stopPropagation();
-})
+});
 updateAva.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  api.updateProfileAvatar(inputLinkAva.value)
+  api
+    .updateProfileAvatar(inputLinkAva.value)
     .then((result) => {
       profileImage.style = `background-image: url(${result.avatar})`;
+      updateAva.reset();
+      closeModal(popupTypeAva);
     })
-  updateAva.reset();
-  saveBtn(evt, true)
-  closeModal(popupTypeAva);
+    .catch((err) => {
+      console.log(err); // "Что-то пошло не так: ..."
+    })
+    .finally(() => {
+      saveBtn(evt, false);
+    });
 });
-
-
 
 // закр через  +
 newPlaceCardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  api.addNewCard(inputNameFormNewCard.value, inputLinkFormNewCard.value)
+  api
+    .addNewCard(inputNameFormNewCard.value, inputLinkFormNewCard.value)
     .then((res) => {
       const cardElement = createCard(
         res,
         deleteCard,
         likeCard,
         openImagePopup,
-        profileName.textContent
+        userId
       );
       placesList.prepend(cardElement);
       newPlaceCardForm.reset();
-      saveBtn(evt, true)
       closeModal(popupNewCard);
+    })
+    .catch((err) => {
+      console.log(err); // "Что-то пошло не так: ..."
+    })
+    .finally(() => {
+      saveBtn(evt, false);
     });
-
 });
 
 profileAddButton.addEventListener('click', (evt) => {
@@ -144,8 +161,7 @@ function saveBtn(evt, load) {
   if (load) {
     submitButton.textContent = 'Сохранение...';
     submitButton.disablaed = true;
-  }
-  else {
+  } else {
     submitButton.textContent = 'Сохранить';
     submitButton.disablaed = false;
   }
@@ -164,11 +180,20 @@ function handleFormSubmitEditProfile(evt) {
   const jobValue = jobInput.value;
 
   // Вставьте новые значения с помощью textContent
-  profileName.textContent = nameValue;
-  profileJob.textContent = jobValue;
-  api.updateEditProfile(nameValue, jobValue);
-  saveBtn(evt, true)
-  closeModal(popupEdit);
+
+  api
+    .updateEditProfile(nameValue, jobValue)
+    .then(() => {
+      profileName.textContent = nameValue;
+      profileJob.textContent = jobValue;
+      closeModal(popupEdit);
+    })
+    .catch((err) => {
+      console.log(err); // "Что-то пошло не так: ..."
+    })
+    .finally(() => {
+      saveBtn(evt, false);
+    });
 }
 
 // Прикрепляем обработчик к форме:

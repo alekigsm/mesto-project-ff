@@ -12,7 +12,12 @@
 ////// работа с формами
 
 // Передадим текст ошибки вторым параметром
-const showInputError = (popupElement, popupInput, errorMessage, validationConfig) => {
+const showInputError = (
+  popupElement,
+  popupInput,
+  errorMessage,
+  validationConfig
+) => {
   // Находим элемент ошибки внутри самой функции
   const errorElement = popupElement.querySelector(`.${popupInput.id}-error`);
   // Остальной код такой же
@@ -30,7 +35,6 @@ const hideInputError = (popupElement, popupInput, validationConfig) => {
   errorElement.textContent = '';
 };
 
-
 // Функция isValid теперь принимает formElement и inputElement,
 // а не берёт их из внешней области видимости
 
@@ -41,12 +45,17 @@ const isValid = (popupElement, popupInput, validationConfig) => {
     // HTML мы писали в kebab-case, это не опечатка)
     popupInput.setCustomValidity(popupInput.dataset.errorMessage);
   } else {
-    popupInput.setCustomValidity("");
+    popupInput.setCustomValidity('');
   }
   if (!popupInput.validity.valid) {
     // showInputError теперь получает параметром форму, в которой
     // находится проверяемое поле, и само это поле
-    showInputError(popupElement, popupInput, popupInput.validationMessage, validationConfig);
+    showInputError(
+      popupElement,
+      popupInput,
+      popupInput.validationMessage,
+      validationConfig
+    );
   } else {
     // hideInputError теперь получает параметром форму, в которой
     // находится проверяемое поле, и само это поле
@@ -56,16 +65,28 @@ const isValid = (popupElement, popupInput, validationConfig) => {
 
 const setEventListeners = (popupElement, validationConfig) => {
   // Найдём все поля формы и сделаем из них массив
-  const inputList = Array.from(popupElement.querySelectorAll(validationConfig.inputSelector));
+  const inputList = Array.from(
+    popupElement.querySelectorAll(validationConfig.inputSelector)
+  );
   // Найдём в текущей форме кнопку отправки
-  const buttonElement = popupElement.querySelector(validationConfig.submitButtonSelector);
-  toggleButtonState(inputList, buttonElement, validationConfig.inactiveButtonClass);
+  const buttonElement = popupElement.querySelector(
+    validationConfig.submitButtonSelector
+  );
+  toggleButtonState(
+    inputList,
+    buttonElement,
+    validationConfig.inactiveButtonClass
+  );
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       isValid(popupElement, inputElement, validationConfig);
 
       // Вызовем toggleButtonState и передадим ей массив полей и кнопку
-      toggleButtonState(inputList, buttonElement, validationConfig.inactiveButtonClass);
+      toggleButtonState(
+        inputList,
+        buttonElement,
+        validationConfig.inactiveButtonClass
+      );
     });
   });
 };
@@ -81,7 +102,7 @@ const hasInvalidInput = (inputList) => {
     // hasInvalidInput вернёт true
 
     return !popupInput.validity.valid;
-  })
+  });
 };
 
 // Функция принимает массив полей ввода
@@ -105,7 +126,9 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
 const enableValidation = (validationConfig) => {
   // Найдём все формы с указанным классом в DOM,
   // сделаем из них массив методом Array.from
-  const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+  const formList = Array.from(
+    document.querySelectorAll(validationConfig.formSelector)
+  );
 
   // Переберём полученную коллекцию
   formList.forEach((popupElement) => {
@@ -115,17 +138,17 @@ const enableValidation = (validationConfig) => {
   });
 };
 
-
 const clearValidation = (popupElement, validationConfig) => {
-  const inputList = Array.from(popupElement.querySelectorAll(validationConfig.inputSelector));
+  const inputList = Array.from(
+    popupElement.querySelectorAll(validationConfig.inputSelector)
+  );
   inputList.forEach((input) => {
-    input.setCustomValidity('')
+    input.setCustomValidity('');
     hideInputError(popupElement, input, validationConfig);
-  })
-  const btn = popupElement.querySelector(validationConfig.submitButtonSelector)
+  });
+  const btn = popupElement.querySelector(validationConfig.submitButtonSelector);
   btn.disabled = true;
   btn.classList.add(validationConfig.inactiveButtonClass);
 };
 
-
-export { enableValidation, clearValidation }
+export { enableValidation, clearValidation };
