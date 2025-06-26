@@ -110,6 +110,7 @@ profileEditIcon.addEventListener('click', function (evt) {
 });
 updateAva.addEventListener('submit', function (evt) {
   evt.preventDefault();
+  changeStateSubmitBtn(evt, true);
   api
     .updateProfileAvatar(inputLinkAva.value)
     .then((result) => {
@@ -121,18 +122,19 @@ updateAva.addEventListener('submit', function (evt) {
       console.log(err); // "Что-то пошло не так: ..."
     })
     .finally(() => {
-      saveBtn(evt, false);
+      changeStateSubmitBtn(evt, false);
     });
 });
 
 // закр через  +
 newPlaceCardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
+  changeStateSubmitBtn(evt, true);
   api
     .addNewCard(inputNameFormNewCard.value, inputLinkFormNewCard.value)
-    .then((res) => {
+    .then((cardData) => {
       const cardElement = createCard(
-        res,
+        cardData,
         deleteCard,
         likeCard,
         openImagePopup,
@@ -146,7 +148,7 @@ newPlaceCardForm.addEventListener('submit', function (evt) {
       console.log(err); // "Что-то пошло не так: ..."
     })
     .finally(() => {
-      saveBtn(evt, false);
+      changeStateSubmitBtn(evt, false);
     });
 });
 
@@ -156,7 +158,8 @@ profileAddButton.addEventListener('click', (evt) => {
   evt.stopPropagation();
 });
 
-function saveBtn(evt, load) {
+//changeStateSubmitBtn button
+function changeStateSubmitBtn(evt, load) {
   const submitButton = evt.submitter;
   if (load) {
     submitButton.textContent = 'Сохранение...';
@@ -171,7 +174,7 @@ function saveBtn(evt, load) {
 // она никуда отправляться не будет
 function handleFormSubmitEditProfile(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-
+  changeStateSubmitBtn(evt, true);
   // Так мы можем определить свою логику отправки.
   // О том, как это делать, расскажем позже.
 
@@ -183,16 +186,16 @@ function handleFormSubmitEditProfile(evt) {
 
   api
     .updateEditProfile(nameValue, jobValue)
-    .then(() => {
-      profileName.textContent = nameValue;
-      profileJob.textContent = jobValue;
+    .then((userData) => {
+      profileName.textContent = userData.name;
+      profileJob.textContent = userData.about;
       closeModal(popupEdit);
     })
     .catch((err) => {
       console.log(err); // "Что-то пошло не так: ..."
     })
     .finally(() => {
-      saveBtn(evt, false);
+      changeStateSubmitBtn(evt, false);
     });
 }
 

@@ -49,7 +49,7 @@ const deleteCard = (cardElement, cardId) => {
       cardElement.remove(); // 30 не понял
     })
     .catch((err) => {
-      console.log(err); // "Что-то пошло не так: ..."
+      console.log(err); // "Что-то пошло не так: .."
     });
 };
 // @todo: Функция добавления/удаления лайка
